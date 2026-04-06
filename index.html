@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AyOuB NeWs | أيوب نيوز</title>
+    <!-- Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-blue: #1a5fb4;
+            --primary-green: #26a269;
+            --primary-purple: #9141ac;
+            --dark-bg: #0f172a; 
+            --light-text: #f8fafc;
+            --accent-gradient: linear-gradient(45deg, #1a5fb4, #26a269, #9141ac);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Cairo', 'Poppins', sans-serif;
+            background-color: #f1f5f9;
+            color: #1e293b;
+            transition: all 0.3s ease;
+        }
+
+        header {
+            background: var(--dark-bg);
+            color: white;
+            padding: 0.5rem 1rem;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .logo-container img {
+            height: 60px;
+            width: auto;
+            display: block;
+            transition: transform 0.3s;
+        }
+
+        .logo-container img:hover { transform: scale(1.05); }
+
+        .lang-switcher select {
+            background: rgba(255,255,255,0.1);
+            color: white;
+            border: 1px solid var(--primary-green);
+            padding: 8px 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        .ticker-wrapper {
+            background: var(--primary-purple);
+            color: white;
+            padding: 8px;
+            overflow: hidden;
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+
+        .news-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .news-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+            transition: all 0.3s ease;
+            border: 1px solid #e2e8f0;
+        }
+
+        .news-card:hover { 
+            transform: translateY(-8px);
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1);
+        }
+
+        .news-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-bottom: 4px solid var(--primary-blue);
+        }
+
+        .news-content { padding: 20px; }
+        
+        .news-category {
+            display: inline-block;
+            background: var(--accent-gradient);
+            color: white;
+            padding: 2px 10px;
+            border-radius: 5px;
+            font-size: 0.75rem;
+            margin-bottom: 10px;
+        }
+
+        .news-title {
+            font-size: 1.15rem;
+            margin-bottom: 15px;
+            line-height: 1.5;
+            font-weight: 700;
+            color: #1e293b;
+        }
+
+        .news-footer {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            color: #64748b;
+            padding-top: 15px;
+            border-top: 1px solid #f1f5f9;
+        }
+
+        .read-more-btn {
+            display: block;
+            text-align: center;
+            background: #f8fafc;
+            color: var(--primary-blue);
+            text-decoration: none;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .categories-bar {
+            display: flex;
+            overflow-x: auto;
+            gap: 12px;
+            margin-bottom: 25px;
+            padding: 10px 5px;
+            scrollbar-width: none;
+        }
+
+        .cat-btn {
+            background: white;
+            border: 1px solid #cbd5e1;
+            padding: 10px 25px;
+            border-radius: 12px;
+            cursor: pointer;
+            white-space: nowrap;
+            font-weight: 600;
+        }
+
+        .cat-btn.active {
+            background: var(--accent-gradient);
+            color: white;
+            border: none;
+        }
+
+        @media (max-width: 768px) {
+            .logo-container img { height: 45px; }
+            .news-grid { grid-template-columns: 1fr; }
+        }
+
+        [dir="ltr"] .header-container { flex-direction: row; }
+        [dir="rtl"] .header-container { flex-direction: row-reverse; }
+    </style>
+</head>
+<body>
+
+<header>
+    <div class="header-container">
+        <div class="logo-container">
+            <a href="/">
+                <img src="https://ik.imagekit.io/imgayoub/LOGO/ayoubpw.png?updatedAt=1774899292962" alt="AyOuB NeWs Logo">
+            </a>
+        </div>
+        
+        <div class="lang-switcher">
+            <select id="langSelect" onchange="changeLanguage(this.value)">
+                <option value="ar">العربية</option>
+                <option value="fr">Français</option>
+                <option value="en">English</option>
+            </select>
+        </div>
+    </div>
+</header>
+
+<div class="ticker-wrapper">
+    <marquee id="ticker-text" scrollamount="6">جاري جلب أحدث الأخبار لـ AyOuB NeWs...</marquee>
+</div>
+
+<div class="container">
+    <div class="categories-bar" id="categoryBar"></div>
+    <div class="news-grid" id="newsGrid">
+        <p style="text-align: center; grid-column: 1/-1; padding: 50px;">جاري تحميل المحتوى...</p>
+    </div>
+</div>
+
+<script>
+    const translations = {
+        ar: { categories: ["الكل", "سياسة", "رياضة", "تقنية", "اقتصاد"], readMore: "اقرأ المزيد", sourceName: "AyOuB NeWs" },
+        fr: { categories: ["Tout", "Politique", "Sport", "Tech", "Économie"], readMore: "Lire la suite", sourceName: "AyOuB NeWs" },
+        en: { categories: ["All", "Politics", "Sports", "Tech", "Economy"], readMore: "Read More", sourceName: "AyOuB NeWs" }
+    };
+
+    const rssSources = {
+        ar: "https://api.rss2json.com/v1/api.json?rss_url=http://www.aljazeera.net/aljazeerarss/ad32706e-1dcc-4309-90c4-3b566270726d",
+        en: "https://api.rss2json.com/v1/api.json?rss_url=https://feeds.bbci.co.uk/news/rss.xml",
+        fr: "https://api.rss2json.com/v1/api.json?rss_url=https://www.france24.com/fr/actualites/rss"
+    };
+
+    let currentLang = localStorage.getItem('lang') || 'ar';
+
+    function init() {
+        document.getElementById('langSelect').value = currentLang;
+        changeLanguage(currentLang);
+    }
+
+    function changeLanguage(lang) {
+        currentLang = lang;
+        localStorage.setItem('lang', lang);
+        document.documentElement.lang = lang;
+        document.documentElement.dir = (lang === 'ar') ? 'rtl' : 'ltr';
+        renderCategories(lang);
+        fetchNews(lang);
+    }
+
+    function renderCategories(lang) {
+        const bar = document.getElementById('categoryBar');
+        bar.innerHTML = translations[lang].categories.map((cat, index) => 
+            `<button class="cat-btn ${index === 0 ? 'active' : ''}" onclick="filterNews('${cat}', this)">${cat}</button>`
+        ).join('');
+    }
+
+    async function fetchNews(lang) {
+        const grid = document.getElementById('newsGrid');
+        const ticker = document.getElementById('ticker-text');
+        
+        try {
+            const response = await fetch(rssSources[lang]);
+            const data = await response.json();
+            
+            if (data.status === 'ok') {
+                ticker.innerText = data.items.slice(0, 5).map(i => i.title).join(' • ');
+                
+                grid.innerHTML = data.items.map(item => `
+                    <article class="news-card">
+                        <img src="${item.thumbnail || 'https://images.unsplash.com/photo-1504711434969-e33886168f5c?auto=format&fit=crop&w=400'}" alt="news image">
+                        <div class="news-content">
+                            <span class="news-category">${item.categories[0] || translations[lang].sourceName}</span>
+                            <h3 class="news-title">${item.title}</h3>
+                            <div class="news-footer">
+                                <span>📅 ${new Date(item.pubDate).toLocaleDateString(lang)}</span>
+                                <span>👤 ${translations[lang].sourceName}</span>
+                            </div>
+                            <a href="${item.link}" target="_blank" class="read-more-btn">${translations[lang].readMore}</a>
+                        </div>
+                    </article>
+                `).join('');
+            }
+        } catch (error) {
+            grid.innerHTML = "<p style='text-align:center; grid-column:1/-1;'>Error loading news...</p>";
+        }
+    }
+
+    function filterNews(category, element) {
+        document.querySelectorAll('.cat-btn').forEach(btn => btn.classList.remove('active'));
+        element.classList.add('active');
+        fetchNews(currentLang); 
+    }
+
+    window.onload = init;
+</script>
+</body>
+</html>
